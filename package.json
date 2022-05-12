@@ -1,0 +1,20 @@
+{
+  "name": "vox-populi",
+  "version": "1.0.0",
+  "description": "An encrypted conflict-free replicated datatype system for counting votes",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/npetrangelo/vox-populi.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/npetrangelo/vox-populi/issues"
+  },
+  "homepage": "https://github.com/npetrangelo/vox-populi#readme"
+}
