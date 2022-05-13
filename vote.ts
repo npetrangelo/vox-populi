@@ -9,7 +9,11 @@ class Ballot<Vote> {
 
 abstract class BallotBox<Vote> {
     votes: Array<Ballot<Vote>>
-    getWinner: () => any;
+    abstract getWinner: () => Vote;
+
+    constructor() {
+        this.votes = []
+    }
 
     merge(that) {
         for (let i = 0; i < this.votes.length; i++) {
@@ -19,4 +23,5 @@ abstract class BallotBox<Vote> {
         }
     }
 }
+
 export default BallotBox;
