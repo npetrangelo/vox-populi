@@ -1,6 +1,6 @@
 import { describe, before, beforeEach, it, after } from "mocha";
-import assert from "assert";
-import BooleanBallotBox from "../BooleanBallotBox";
+import { expect } from "chai";
+import BooleanBallotBox from "../src/BooleanBallotBox";
 
 let box = new BooleanBallotBox(3, 0.5);
 
@@ -17,7 +17,7 @@ describe("Testing BooleanBallotBox", () => {
       box.placeVote(0, true);
       box.placeVote(1, false);
       box.placeVote(2, false);
-      assert.equal(0, 0);
+      expect(0).to.equal(0);
       // console.log(foo);
    });
 

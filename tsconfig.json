@@ -1,8 +1,13 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "ESNext",
+    "moduleResolution": "Node",
     "target": "es5",
-    "sourceMap": true
+    "sourceMap": true,
+    "esModuleInterop": true
+  },
+  "ts-node": {
+    "esm": true
   },
   "include": ["test"],
   "exclude": [

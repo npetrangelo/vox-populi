@@ -1,3 +1,11 @@
+// const { generateKeyPairSync, Sign } = await import('node:crypto');
+//
+// class EncryptedVote {
+//     constructor(vote) {
+//         const {publicKey, privateKey} = generateKeyPairSync('rsa', {});
+//     }
+// }
+
 class Ballot<Vote> {
     vote: Vote
     timestamp: number

@@ -1,10 +1,11 @@
 {
   "name": "vox-populi",
   "version": "1.0.0",
+  "type": "module",
   "description": "An encrypted conflict-free replicated datatype system for counting votes",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --recursive --exit"
+    "test": "mocha --require ts-node/register --watch-extensions ts 'test/*.ts'"
   },
   "repository": {
     "type": "git",
@@ -18,8 +19,18 @@
   },
   "homepage": "https://github.com/npetrangelo/vox-populi#readme",
   "dependencies": {
-    "assert": "^2.0.0",
+    "chai": "^4.3.6",
     "dotenv": "^16.0.1",
     "mocha": "^10.0.0"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.3.1",
+    "@types/mocha": "^9.1.1",
+    "@types/node": "^7.10.0",
+    "babel-cli": "^6.26.0",
+    "ts-mocha": "^10.0.0",
+    "ts-node": "^3.2.0",
+    "tslint": "^5.11.0",
+    "typescript": "^2.9.2"
   }
 }
