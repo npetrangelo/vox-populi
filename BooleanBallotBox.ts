@@ -2,8 +2,8 @@ import BallotBox from "./vote";
 
 class BooleanBallotBox extends BallotBox<boolean> {
     threshold: number
-    constructor(threshold: number) {
-        super();
+    constructor(size: number, threshold: number) {
+        super(size);
         this.threshold = threshold;
     }
 

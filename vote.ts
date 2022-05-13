@@ -11,8 +11,12 @@ abstract class BallotBox<Vote> {
     votes: Array<Ballot<Vote>>
     abstract getWinner: () => Vote;
 
-    constructor() {
-        this.votes = []
+    protected constructor(size: number) {
+        this.votes = new Array<Ballot<Vote>>(size);
+    }
+
+    placeVote(index: number, vote: Vote) {
+        this.votes[index] = new Ballot<Vote>(vote);
     }
 
     merge(that) {
