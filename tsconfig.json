@@ -9,7 +9,9 @@
   "ts-node": {
     "esm": true
   },
-  "include": ["test"],
+  "include": [
+    "tests"
+  ],
   "exclude": [
     "node_modules"
   ]
