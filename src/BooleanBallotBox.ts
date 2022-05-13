@@ -12,7 +12,7 @@ class BooleanBallotBox extends BallotBox<boolean> {
         this.votes.forEach((ballot) => {
             yay += (ballot.vote) ? 1 : 0;
         });
-        return yay > (this.threshold * this.votes.length);
+        return yay >= (this.threshold * this.votes.length);
     };
 }
 
