@@ -19,7 +19,7 @@ describe("Testing 50% Multiple Choice Ballot Box", () => {
         expect(box.getWinner()).toBe(null);
     });
 
-    it("returns winner when the winner doesn't have enough votes", () => {
+    it("returns winner when the winner has enough votes", () => {
         box.placeVote(0, "Alice");
         box.placeVote(1, "Alice");
         box.placeVote(2, "Bob");
