@@ -16,23 +16,36 @@ class Ballot<Vote> {
 }
 
 export abstract class BallotBox<Vote> {
-    votes: Array<Ballot<Vote>>
+    ballots: Array<Ballot<Vote>>
     protected constructor(size: number) {
-        this.votes = new Array<Ballot<Vote>>(size);
+        this.ballots = new Array<Ballot<Vote>>(size);
     }
 
     placeVote(index: number, vote: Vote) {
-        this.votes[index] = new Ballot<Vote>(vote);
+        this.ballots[index] = new Ballot<Vote>(vote);
     }
 
     protected abstract getWinner(): Vote;
 
-    merge(that) {
-        for (let i = 0; i < this.votes.length; i++) {
-            if (that.votes[i].timestamp > this.votes[i].timestamp) {
-                this.votes[i] = that.votes[i];
+    merge(that: BallotBox<Vote>) {
+        for (let i = 0; i < this.ballots.length; i++) {
+            if (that.ballots[i] == null) {
+                continue;
+            }
+
+            if (this.ballots[i] == null) {
+                this.ballots[i] = that.ballots[i];
+                continue;
+            }
+
+            if (that.ballots[i].timestamp > this.ballots[i].timestamp) {
+                this.ballots[i] = that.ballots[i];
             }
         }
+    }
+
+    get votes(): Array<Vote> {
+        return this.ballots.map(ballot => ballot.vote);
     }
 }
 
@@ -68,6 +81,6 @@ export abstract class ConsensusBallotBox<Vote> extends BallotBox<Vote> {
             return null;
         }
         let [winner, votes] = winningVotes;
-        return (votes >= this.consensus * this.votes.length) ? winner : null;
+        return (votes >= this.consensus * this.ballots.length) ? winner : null;
     }
 }

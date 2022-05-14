@@ -7,7 +7,7 @@ class BooleanBallotBox extends ConsensusBallotBox<boolean> {
 
     override getWinningVotes(): [boolean, number] {
         let yay = 0;
-        for (let ballot of this.votes) {
+        for (let ballot of this.ballots) {
             yay += (ballot.vote) ? 1 : 0;
         }
         return [true, yay];

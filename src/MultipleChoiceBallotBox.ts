@@ -9,7 +9,7 @@ class MultipleChoiceBallotBox<Choice> extends ConsensusBallotBox<Choice> {
 
     override getWinningVotes(): [Choice, number] {
         let options = new Map<Choice, number>(this.options.map((v, i) => [v, 0]));
-        this.votes.forEach((ballot, index) => {
+        this.ballots.forEach((ballot, index) => {
             if (!options.has(ballot.vote)) {
                 // TODO Error
             }
