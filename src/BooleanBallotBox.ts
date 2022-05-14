@@ -1,17 +1,21 @@
 import { BallotBox } from "./vote";
-import {CountingStrategy} from "./CountingStrategy";
+import {ConsensusLevel} from "./ConsensusLevel";
 
 class BooleanBallotBox extends BallotBox<boolean> {
-    constructor(size: number, strategy: CountingStrategy<boolean>) {
-        super(size, strategy);
+    constructor(size: number, consensus: number, strategy: ConsensusLevel<boolean>) {
+        super(size, consensus, strategy);
     }
 
-    getWinningVotes(): [boolean, number] {
+    getWinningVotes(): [boolean, number, number] {
+        let numVotes = 0;
         let yay = 0;
         for (let ballot of this.ballots) {
-            yay += (ballot.vote) ? 1 : 0;
+            if (ballot != null) {
+                numVotes++;
+                yay += (ballot.vote) ? 1 : 0;
+            }
         }
-        return [true, yay];
+        return [true, yay, numVotes];
     }
 }
 

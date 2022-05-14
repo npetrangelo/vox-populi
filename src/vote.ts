@@ -6,7 +6,7 @@
 //     }
 // }
 
-import {CountingStrategy} from "./CountingStrategy";
+import {ConsensusLevel} from "./ConsensusLevel";
 
 class Ballot<Vote> {
     vote: Vote
@@ -18,23 +18,34 @@ class Ballot<Vote> {
 }
 
 export abstract class BallotBox<Vote> {
+    isOpen: boolean
+    consensus: number
     ballots: Array<Ballot<Vote>>
-    strategy: CountingStrategy<Vote>
-    protected constructor(size: number, strategy: CountingStrategy<Vote>) {
+    strategy: ConsensusLevel<Vote>
+    protected constructor(size: number, consensus: number, strategy: ConsensusLevel<Vote>) {
+        this.isOpen = true;
+        this.consensus = consensus;
         this.strategy = strategy;
         this.ballots = new Array<Ballot<Vote>>(size);
         this.ballots.fill(null);
     }
 
     placeVote(index: number, vote: Vote) {
-        this.ballots[index] = new Ballot<Vote>(vote);
+        if (this.isOpen) {
+            this.ballots[index] = new Ballot<Vote>(vote);
+        }
     }
 
-    protected abstract getWinningVotes(): [winner: Vote, votes: number];
+    close(): Vote {
+        this.isOpen = false;
+        return this.getWinner();
+    }
+
+    protected abstract getWinningVotes(): [winner: Vote, votes: number, numVoted: number];
 
     getWinner(): Vote {
-        let [winner, votes] = this.getWinningVotes();
-        return this.strategy.getWinner(this, winner, votes);
+        let [winner, votes, numVoted] = this.getWinningVotes();
+        return this.strategy.getWinner(this, winner, votes, numVoted);
     }
 
     merge(that: BallotBox<Vote>) {

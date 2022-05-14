@@ -1,14 +1,14 @@
 import 'jest';
 import MultipleChoiceBallotBox from "../../src/MultipleChoiceBallotBox";
-import {Consensus} from "../../src/CountingStrategy";
+import {GlobalConsensus} from "../../src/ConsensusLevel";
 
 let options = ["Alice", "Bob", "Charles"];
 let box: MultipleChoiceBallotBox<string>;
 
 describe("Testing 50% Multiple Choice Ballot Box", () => {
     beforeEach(() => {
-        let strategy: Consensus<string> = new Consensus(0.5);
-        box = new MultipleChoiceBallotBox<string>(6, strategy, options);
+        let strategy: GlobalConsensus<string> = new GlobalConsensus();
+        box = new MultipleChoiceBallotBox<string>(6, 0.5, strategy, options);
     });
 
     it("returns null when the winner doesn't have enough votes", () => {

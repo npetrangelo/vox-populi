@@ -1,14 +1,14 @@
 import { BallotBox } from "./vote";
-import {CountingStrategy} from "./CountingStrategy";
+import {ConsensusLevel} from "./ConsensusLevel";
 
 class MultipleChoiceBallotBox<Choice> extends BallotBox<Choice> {
     options: Array<Choice>
-    constructor(size: number, strategy: CountingStrategy<Choice>, options: Array<Choice>) {
-        super(size, strategy);
+    constructor(size: number, consensus: number, strategy: ConsensusLevel<Choice>, options: Array<Choice>) {
+        super(size, consensus, strategy);
         this.options = options;
     }
 
-    override getWinningVotes(): [Choice, number] {
+    override getWinningVotes(): [Choice, number, number] {
         let options = new Map<Choice, number>(this.options.map((v, i) => [v, 0]));
         this.ballots.forEach((ballot, index) => {
             if (!options.has(ballot.vote)) {
@@ -22,10 +22,11 @@ class MultipleChoiceBallotBox<Choice> extends BallotBox<Choice> {
             });
 
         if (results[0][1] == results[1][1]) {
-            return [null, 0];
+            return [null, 0, 0];
         }
 
-        return results[0];
+        let numNulls = this.ballots.filter(ballot => ballot == null).length;
+        return [results[0][0], results[0][1], this.ballots.length - numNulls];
     }
 }
 
