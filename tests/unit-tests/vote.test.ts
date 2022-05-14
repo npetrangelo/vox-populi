@@ -15,7 +15,7 @@ describe("Testing the merging of Ballot Boxes", () => {
         box2 = new BooleanBallotBox(3, 0.50);
     });
 
-    it("merges two ballot boxes", async () => {
+    it("checks that merged ballot boxes contain the same votes as each other", async () => {
         await sleep(5);
         box1.placeVote(0, true);
         box2.placeVote(1, true);
@@ -23,5 +23,18 @@ describe("Testing the merging of Ballot Boxes", () => {
         box1.merge(box2);
         box2.merge(box1);
         expect(box1.votes).toEqual(box2.votes);
+    });
+
+    it("checks votes after a merge", async () => {
+        await sleep(5);
+        box1.placeVote(0, true);
+        box2.placeVote(1, true);
+
+        box1.merge(box2);
+
+        let expected = new BooleanBallotBox(3, 0.5);
+        expected.placeVote(0, true);
+        expected.placeVote(1, true);
+        expect(box1.votes).toEqual(expected.votes);
     });
 });
