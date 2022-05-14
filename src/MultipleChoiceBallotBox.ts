@@ -1,11 +1,11 @@
 import BallotBox from "./vote";
 
 class MultipleChoiceBallotBox<Choice> extends BallotBox<Choice> {
-    threshold: number
+    consensus: number
     options: Array<Choice>
-    constructor(size: number, threshold: number, options: Array<Choice>) {
+    constructor(size: number, consensus: number, options: Array<Choice>) {
         super(size);
-        this.threshold = threshold;
+        this.consensus = consensus;
         this.options = options;
     }
 
@@ -27,7 +27,7 @@ class MultipleChoiceBallotBox<Choice> extends BallotBox<Choice> {
         }
 
         let winner: [Choice, number] = results[0];
-        return (winner[1] >= (this.threshold * this.votes.length)) ? winner[0] : null;
+        return (winner[1] >= (this.consensus * this.votes.length)) ? winner[0] : null;
     }
 }
 

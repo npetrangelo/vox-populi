@@ -1,10 +1,10 @@
 import BallotBox from "./vote";
 
 class BooleanBallotBox extends BallotBox<boolean> {
-    threshold: number
-    constructor(size: number, threshold: number) {
+    consensus: number
+    constructor(size: number, consensus: number) {
         super(size);
-        this.threshold = threshold;
+        this.consensus = consensus;
     }
 
     getWinner = (): boolean => {
@@ -12,7 +12,7 @@ class BooleanBallotBox extends BallotBox<boolean> {
         this.votes.forEach((ballot) => {
             yay += (ballot.vote) ? 1 : 0;
         });
-        return yay >= (this.threshold * this.votes.length);
+        return yay >= (this.consensus * this.votes.length);
     };
 }
 
