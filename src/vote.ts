@@ -36,4 +36,22 @@ abstract class BallotBox<Vote> {
     }
 }
 
+export abstract class ClosableBallotBox<Vote> extends BallotBox<Vote> {
+    isOpen: boolean
+
+    protected constructor(size: number) {
+        super(size);
+        this.isOpen = true;
+    }
+
+    override placeVote(index: number, vote: Vote) {
+        if (this.isOpen) super.placeVote(index, vote);
+    }
+
+    close(): Vote {
+        this.isOpen = false;
+        return this.getWinner();
+    }
+}
+
 export default BallotBox;
