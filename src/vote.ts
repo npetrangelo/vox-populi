@@ -6,6 +6,8 @@
 //     }
 // }
 
+import {CountingStrategy} from "./CountingStrategy";
+
 class Ballot<Vote> {
     vote: Vote
     timestamp: number
@@ -17,7 +19,9 @@ class Ballot<Vote> {
 
 export abstract class BallotBox<Vote> {
     ballots: Array<Ballot<Vote>>
-    protected constructor(size: number) {
+    strategy: CountingStrategy<Vote>
+    protected constructor(size: number, strategy: CountingStrategy<Vote>) {
+        this.strategy = strategy;
         this.ballots = new Array<Ballot<Vote>>(size);
         this.ballots.fill(null);
     }
@@ -26,7 +30,12 @@ export abstract class BallotBox<Vote> {
         this.ballots[index] = new Ballot<Vote>(vote);
     }
 
-    protected abstract getWinner(): Vote;
+    protected abstract getWinningVotes(): [winner: Vote, votes: number];
+
+    getWinner(): Vote {
+        let [winner, votes] = this.getWinningVotes();
+        return this.strategy.getWinner(this, winner, votes);
+    }
 
     merge(that: BallotBox<Vote>) {
         for (let i = 0; i < this.ballots.length; i++) {
@@ -52,41 +61,5 @@ export abstract class BallotBox<Vote> {
             }
             return ballot.vote;
         });
-    }
-}
-
-export abstract class ClosableBallotBox<Vote> extends BallotBox<Vote> {
-    isOpen: boolean
-    protected constructor(size: number) {
-        super(size);
-        this.isOpen = true;
-    }
-
-    override placeVote(index: number, vote: Vote) {
-        if (this.isOpen) super.placeVote(index, vote);
-    }
-
-    close(): Vote {
-        this.isOpen = false;
-        return this.getWinner();
-    }
-}
-
-export abstract class ConsensusBallotBox<Vote> extends BallotBox<Vote> {
-    consensus: number
-    protected constructor(size: number, consensus: number) {
-        super(size);
-        this.consensus = consensus;
-    }
-
-    protected abstract getWinningVotes(): [Vote, number];
-
-    override getWinner(): Vote {
-        let winningVotes = this.getWinningVotes();
-        if (winningVotes == null) {
-            return null;
-        }
-        let [winner, votes] = winningVotes;
-        return (votes >= this.consensus * this.ballots.length) ? winner : null;
     }
 }

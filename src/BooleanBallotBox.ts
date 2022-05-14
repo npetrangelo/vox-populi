@@ -1,11 +1,12 @@
-import { ConsensusBallotBox } from "./vote";
+import { BallotBox } from "./vote";
+import {CountingStrategy} from "./CountingStrategy";
 
-class BooleanBallotBox extends ConsensusBallotBox<boolean> {
-    constructor(size: number, consensus: number) {
-        super(size, consensus);
+class BooleanBallotBox extends BallotBox<boolean> {
+    constructor(size: number, strategy: CountingStrategy<boolean>) {
+        super(size, strategy);
     }
 
-    override getWinningVotes(): [boolean, number] {
+    getWinningVotes(): [boolean, number] {
         let yay = 0;
         for (let ballot of this.ballots) {
             yay += (ballot.vote) ? 1 : 0;

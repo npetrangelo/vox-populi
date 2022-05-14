@@ -1,11 +1,13 @@
 import 'jest';
 import BooleanBallotBox from "../../src/BooleanBallotBox";
+import {Consensus} from "../../src/CountingStrategy";
 
 let box: BooleanBallotBox;
 
 describe("Testing 25% BooleanBallotBox", () => {
    beforeEach(() => {
-      box = new BooleanBallotBox(3, 0.25);
+      let strategy: Consensus<boolean> = new Consensus(0.25);
+      box = new BooleanBallotBox(3, strategy);
    });
 
    it("returns false when there aren't enough votes", async () => {
@@ -25,7 +27,8 @@ describe("Testing 25% BooleanBallotBox", () => {
 
 describe("Testing 50% BooleanBallotBox", () => {
    beforeEach(() => {
-      box = new BooleanBallotBox(3, 0.5);
+      let strategy: Consensus<boolean> = new Consensus(0.5);
+      box = new BooleanBallotBox(3, strategy);
    });
 
    it("returns false when there aren't enough votes", async () => {
@@ -45,7 +48,8 @@ describe("Testing 50% BooleanBallotBox", () => {
 
 describe("Testing 100% BooleanBallotBox", () => {
    beforeEach(() => {
-      box = new BooleanBallotBox(3, 1.0);
+      let strategy: Consensus<boolean> = new Consensus(1.0);
+      box = new BooleanBallotBox(3, strategy);
    });
 
    it("returns false when there aren't enough votes", async () => {

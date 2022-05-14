@@ -1,9 +1,10 @@
-import { ConsensusBallotBox } from "./vote";
+import { BallotBox } from "./vote";
+import {CountingStrategy} from "./CountingStrategy";
 
-class MultipleChoiceBallotBox<Choice> extends ConsensusBallotBox<Choice> {
+class MultipleChoiceBallotBox<Choice> extends BallotBox<Choice> {
     options: Array<Choice>
-    constructor(size: number, consensus: number, options: Array<Choice>) {
-        super(size, consensus);
+    constructor(size: number, strategy: CountingStrategy<Choice>, options: Array<Choice>) {
+        super(size, strategy);
         this.options = options;
     }
 
@@ -21,7 +22,7 @@ class MultipleChoiceBallotBox<Choice> extends ConsensusBallotBox<Choice> {
             });
 
         if (results[0][1] == results[1][1]) {
-            return null;
+            return [null, 0];
         }
 
         return results[0];
