@@ -9,10 +9,13 @@ class BooleanBallotBox extends BallotBox<boolean> {
 
     getWinner = (): boolean => {
         let yay = 0;
-        this.votes.forEach((ballot) => {
+        for (let ballot of this.votes) {
             yay += (ballot.vote) ? 1 : 0;
-        });
-        return yay >= (this.consensus * this.votes.length);
+            if (yay >= (this.consensus * this.votes.length)) {
+                return true;
+            }
+        }
+        return false;
     };
 }
 
