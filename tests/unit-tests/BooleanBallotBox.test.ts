@@ -12,7 +12,7 @@ describe("Testing 25% BooleanBallotBox", () => {
       box.placeVote(0, false);
       box.placeVote(1, false);
       box.placeVote(2, false);
-      expect(box.getWinner()).toBe(false);
+      expect(box.getWinner()).toBe(null);
    });
 
    it("returns true when there are enough votes", () => {
@@ -32,7 +32,7 @@ describe("Testing 50% BooleanBallotBox", () => {
       box.placeVote(0, true);
       box.placeVote(1, false);
       box.placeVote(2, false);
-      expect(box.getWinner()).toBe(false);
+      expect(box.getWinner()).toBe(null);
    });
 
    it("returns true when there are enough votes", () => {
@@ -52,7 +52,7 @@ describe("Testing 100% BooleanBallotBox", () => {
       box.placeVote(0, true);
       box.placeVote(1, true);
       box.placeVote(2, false);
-      expect(box.getWinner()).toBe(false);
+      expect(box.getWinner()).toBe(null);
    });
 
    it("returns true when there are enough votes", () => {

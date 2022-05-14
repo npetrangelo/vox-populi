@@ -1,22 +1,17 @@
-import BallotBox from "./vote";
+import { ConsensusBallotBox } from "./vote";
 
-class BooleanBallotBox extends BallotBox<boolean> {
-    consensus: number
+class BooleanBallotBox extends ConsensusBallotBox<boolean> {
     constructor(size: number, consensus: number) {
-        super(size);
-        this.consensus = consensus;
+        super(size, consensus);
     }
 
-    getWinner = (): boolean => {
+    protected getWinningVotes(): [boolean, number] {
         let yay = 0;
         for (let ballot of this.votes) {
             yay += (ballot.vote) ? 1 : 0;
-            if (yay >= (this.consensus * this.votes.length)) {
-                return true;
-            }
         }
-        return false;
-    };
+        return [true, yay];
+    }
 }
 
 export default BooleanBallotBox;

@@ -15,10 +15,8 @@ class Ballot<Vote> {
     }
 }
 
-abstract class BallotBox<Vote> {
+export abstract class BallotBox<Vote> {
     votes: Array<Ballot<Vote>>
-    abstract getWinner: () => Vote;
-
     protected constructor(size: number) {
         this.votes = new Array<Ballot<Vote>>(size);
     }
@@ -26,6 +24,8 @@ abstract class BallotBox<Vote> {
     placeVote(index: number, vote: Vote) {
         this.votes[index] = new Ballot<Vote>(vote);
     }
+
+    protected abstract getWinner(): Vote;
 
     merge(that) {
         for (let i = 0; i < this.votes.length; i++) {
@@ -38,7 +38,6 @@ abstract class BallotBox<Vote> {
 
 export abstract class ClosableBallotBox<Vote> extends BallotBox<Vote> {
     isOpen: boolean
-
     protected constructor(size: number) {
         super(size);
         this.isOpen = true;
@@ -54,4 +53,21 @@ export abstract class ClosableBallotBox<Vote> extends BallotBox<Vote> {
     }
 }
 
-export default BallotBox;
+export abstract class ConsensusBallotBox<Vote> extends BallotBox<Vote> {
+    consensus: number
+    protected constructor(size: number, consensus: number) {
+        super(size);
+        this.consensus = consensus;
+    }
+
+    protected abstract getWinningVotes(): [Vote, number];
+
+    override getWinner(): Vote {
+        let winningVotes = this.getWinningVotes();
+        if (winningVotes == null) {
+            return null;
+        }
+        let [winner, votes] = winningVotes;
+        return (votes >= this.consensus * this.votes.length) ? winner : null;
+    }
+}

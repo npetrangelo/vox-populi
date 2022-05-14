@@ -1,15 +1,13 @@
-import BallotBox from "./vote";
+import { ConsensusBallotBox } from "./vote";
 
-class MultipleChoiceBallotBox<Choice> extends BallotBox<Choice> {
-    consensus: number
+class MultipleChoiceBallotBox<Choice> extends ConsensusBallotBox<Choice> {
     options: Array<Choice>
     constructor(size: number, consensus: number, options: Array<Choice>) {
-        super(size);
-        this.consensus = consensus;
+        super(size, consensus);
         this.options = options;
     }
 
-    getWinner = (): Choice => {
+    protected getWinningVotes(): [Choice, number] {
         let options = new Map<Choice, number>(this.options.map((v, i) => [v, 0]));
         this.votes.forEach((ballot, index) => {
             if (!options.has(ballot.vote)) {
@@ -26,8 +24,7 @@ class MultipleChoiceBallotBox<Choice> extends BallotBox<Choice> {
             return null;
         }
 
-        let winner: [Choice, number] = results[0];
-        return (winner[1] >= (this.consensus * this.votes.length)) ? winner[0] : null;
+        return results[0];
     }
 }
 
