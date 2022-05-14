@@ -31,10 +31,7 @@ describe("Testing the merging of Ballot Boxes", () => {
         box2.placeVote(1, true);
 
         box1.merge(box2);
-
-        let expected = new BooleanBallotBox(3, 0.5);
-        expected.placeVote(0, true);
-        expected.placeVote(1, true);
-        expect(box1.votes).toEqual(expected.votes);
+        let expected = [true, true, null];
+        expect(box1.votes).toEqual(expected);
     });
 });

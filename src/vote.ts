@@ -19,6 +19,7 @@ export abstract class BallotBox<Vote> {
     ballots: Array<Ballot<Vote>>
     protected constructor(size: number) {
         this.ballots = new Array<Ballot<Vote>>(size);
+        this.ballots.fill(null);
     }
 
     placeVote(index: number, vote: Vote) {
@@ -45,7 +46,12 @@ export abstract class BallotBox<Vote> {
     }
 
     get votes(): Array<Vote> {
-        return this.ballots.map(ballot => ballot.vote);
+        return this.ballots.map(ballot => {
+            if (ballot == null) {
+                return null;
+            }
+            return ballot.vote;
+        });
     }
 }
 
