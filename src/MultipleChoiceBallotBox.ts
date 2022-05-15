@@ -8,7 +8,7 @@ class MultipleChoiceBallotBox<Choice> extends BallotBox<Choice> {
         this.options = options;
     }
 
-    override getWinningVotes(): [Choice, number, number] {
+    override getWinningVotes(): [Choice, number] {
         let options = new Map<Choice, number>(this.options.map(v => [v, 0]));
         for (let ballot of this.ballots) {
             if (ballot == null) {
@@ -22,12 +22,11 @@ class MultipleChoiceBallotBox<Choice> extends BallotBox<Choice> {
                 return n2 - n1;
             });
 
-        let numVoted = this.numVoted;
         if (results[0][1] == results[1][1]) {
-            return [null, results[0][1], numVoted];
+            return [null, results[0][1]];
         }
 
-        return [results[0][0], results[0][1], numVoted];
+        return results[0];
     }
 }
 

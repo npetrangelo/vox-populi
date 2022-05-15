@@ -43,7 +43,7 @@ export abstract class BallotBox<Vote> {
         return this.ballots.filter(ballot => ballot != null).length;
     }
 
-    abstract getWinningVotes(): [winner: Vote, votes: number, numVoted: number];
+    abstract getWinningVotes(): [winner: Vote, votes: number];
 
     getWinner(): Vote {
         return this.strategy.getWinner(this);

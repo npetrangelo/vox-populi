@@ -14,7 +14,7 @@ describe("Testing 50% Multiple Choice Ballot Box", () => {
     it("says the winner is null in a tie", () => {
         box.placeVote(0, "Alice");
         box.placeVote(1, "Bob");
-        expect(box.getWinningVotes()).toEqual([null, 1, 2]);
+        expect(box.getWinningVotes()).toEqual([null, 1]);
     });
 
     it("says there are 4 'Bob' votes", () => {
@@ -24,6 +24,6 @@ describe("Testing 50% Multiple Choice Ballot Box", () => {
         box.placeVote(3, "Bob");
         box.placeVote(4, "Bob");
         box.placeVote(5, "Bob");
-        expect(box.getWinningVotes()).toEqual(["Bob", 4, 6]);
+        expect(box.getWinningVotes()).toEqual(["Bob", 4]);
     });
 });

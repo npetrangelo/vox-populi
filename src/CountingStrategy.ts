@@ -12,8 +12,8 @@ export class VoterConsensus<Vote> implements CountingStrategy<Vote> {
     }
 
     getWinner(box: BallotBox<Vote>): Vote {
-        let [winner, votes, numVoted] = box.getWinningVotes();
-        return (votes >= this.consensus * numVoted) ? winner : null;
+        let [winner, votes] = box.getWinningVotes();
+        return (votes >= this.consensus * box.numVoted) ? winner : null;
     }
 }
 
@@ -24,7 +24,7 @@ export class GlobalConsensus<Vote> implements CountingStrategy<Vote> {
     }
 
     getWinner(box: BallotBox<Vote>): Vote {
-        let [winner, votes, numVoted] = box.getWinningVotes();
+        let [winner, votes] = box.getWinningVotes();
         return (votes >= this.consensus * box.ballots.length) ? winner : null;
     }
 }
