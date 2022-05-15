@@ -2,11 +2,11 @@ import 'jest';
 import BooleanBallotBox from "../../src/BooleanBallotBox";
 import {GlobalConsensus} from "../../src/ConsensusLevel";
 
+let strategy = new GlobalConsensus<boolean>();
 let box: BooleanBallotBox;
 
 describe("Testing BooleanBallotBox", () => {
    beforeEach(() => {
-      let strategy: GlobalConsensus<boolean> = new GlobalConsensus();
       box = new BooleanBallotBox(3, 0.5, strategy);
    });
 

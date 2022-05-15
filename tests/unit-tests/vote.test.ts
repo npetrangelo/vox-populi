@@ -1,23 +1,22 @@
 import 'jest';
 import BooleanBallotBox from "../../src/BooleanBallotBox";
-import {BallotBox} from "../../src/vote";
 import {GlobalConsensus} from "../../src/ConsensusLevel";
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+let level = new GlobalConsensus<boolean>();
 let box1: BooleanBallotBox;
 let box2: BooleanBallotBox;
 
 describe("Testing the merging of Ballot Boxes", () => {
     beforeEach(() => {
-        let level = new GlobalConsensus<boolean>();
         box1 = new BooleanBallotBox(3, 0.5, level);
         box2 = new BooleanBallotBox(3, 0.5, level);
     });
 
-    it("checks that merged ballot boxes contain the same votes as each other", async () => {
+    it("checks that merged ballot boxes contain the same votes as each other", () => {
         box1.placeVote(0, true);
         box2.placeVote(1, true);
 
@@ -26,13 +25,25 @@ describe("Testing the merging of Ballot Boxes", () => {
         expect(box1.votes).toEqual(box2.votes);
     });
 
-    it("checks votes after a merge", async () => {
+    it("has correct vote summary after a merge", () => {
         box1.placeVote(0, true);
         box2.placeVote(1, true);
 
         box1.merge(box2);
-        let expected = [true, true, null];
-        expect(box1.votes).toEqual(expected);
+        expect(box1.votes).toEqual([true, true, null]);
+    });
+
+    it("takes most recent votes in a merge", async () => {
+        box1.placeVote(1, false);
+        box2.placeVote(0, false);
+
+        await sleep(3);
+
+        box1.placeVote(0, true);
+        box2.placeVote(1, true);
+
+        box1.merge(box2);
+        expect(box1.votes).toEqual([true, true, null]);
     });
 
     it("doesn't let people vote after box is closed", () => {
