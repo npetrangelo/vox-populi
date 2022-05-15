@@ -2,8 +2,8 @@ import { BallotBox } from "./vote";
 import {ConsensusLevel} from "./ConsensusLevel";
 
 class BooleanBallotBox extends BallotBox<boolean> {
-    constructor(size: number, consensus: number, strategy: ConsensusLevel<boolean>) {
-        super(size, consensus, strategy);
+    constructor(size: number, strategy: ConsensusLevel<boolean>) {
+        super(size, strategy);
     }
 
     getWinningVotes(): [boolean, number, number] {

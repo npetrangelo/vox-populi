@@ -1,14 +1,14 @@
 import 'jest';
 import MultipleChoiceBallotBox from "../../src/MultipleChoiceBallotBox";
-import {GlobalConsensus, VoterConsensus} from "../../src/ConsensusLevel";
+import {Average, GlobalConsensus, VoterConsensus} from "../../src/ConsensusLevel";
 
 let options = ["Alice", "Bob", "Charles"];
 let box: MultipleChoiceBallotBox<string>;
 
 describe("Testing VoterConsensus level", () => {
     beforeEach(() => {
-        let strategy = new VoterConsensus<string>();
-        box = new MultipleChoiceBallotBox<string>(5, 0.5, strategy, options);
+        let strategy = new VoterConsensus<string>(0.5);
+        box = new MultipleChoiceBallotBox<string>(5, strategy, options);
     });
 
     it("returns null if there is a tie", () => {
@@ -25,8 +25,8 @@ describe("Testing VoterConsensus level", () => {
 
 describe("Testing GlobalConsensus level", () => {
     beforeEach(() => {
-        let strategy = new GlobalConsensus<string>();
-        box = new MultipleChoiceBallotBox<string>(6, 0.5, strategy, options);
+        let strategy = new GlobalConsensus<string>(0.5);
+        box = new MultipleChoiceBallotBox<string>(6, strategy, options);
     });
 
     it("returns null if there aren't enough votes", () => {
@@ -52,3 +52,18 @@ describe("Testing GlobalConsensus level", () => {
         expect(box.getWinner()).toBe("Alice");
     });
 });
+
+let numOptions = [0, 1];
+let avgBox: MultipleChoiceBallotBox<number>;
+
+describe("Testing Average counting strategy", () => {
+    beforeEach(() => {
+        avgBox = new MultipleChoiceBallotBox<number>(2, new Average(), numOptions);
+    });
+
+    it("says the winner is 0.5", () => {
+        avgBox.placeVote(0, 0);
+        avgBox.placeVote(1, 1);
+        expect(avgBox.getWinner()).toBe(0.5);
+    });
+})

@@ -3,12 +3,12 @@ import MultipleChoiceBallotBox from "../../src/MultipleChoiceBallotBox";
 import {GlobalConsensus} from "../../src/ConsensusLevel";
 
 let options = ["Alice", "Bob", "Charles"];
-let strategy = new GlobalConsensus<string>();
+let strategy = new GlobalConsensus<string>(0.5);
 let box: MultipleChoiceBallotBox<string>;
 
 describe("Testing 50% Multiple Choice Ballot Box", () => {
     beforeEach(() => {
-        box = new MultipleChoiceBallotBox<string>(6, 0.5, strategy, options);
+        box = new MultipleChoiceBallotBox<string>(6, strategy, options);
     });
 
     it("says the winner is null in a tie", () => {

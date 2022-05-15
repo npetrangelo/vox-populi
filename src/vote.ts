@@ -19,12 +19,10 @@ class Ballot<Vote> {
 
 export abstract class BallotBox<Vote> {
     isOpen: boolean
-    consensus: number
     ballots: Array<Ballot<Vote>>
     strategy: ConsensusLevel<Vote>
-    protected constructor(size: number, consensus: number, strategy: ConsensusLevel<Vote>) {
+    protected constructor(size: number, strategy: ConsensusLevel<Vote>) {
         this.isOpen = true;
-        this.consensus = consensus;
         this.strategy = strategy;
         this.ballots = new Array<Ballot<Vote>>(size);
         this.ballots.fill(null);
@@ -39,6 +37,10 @@ export abstract class BallotBox<Vote> {
     close(): Vote {
         this.isOpen = false;
         return this.getWinner();
+    }
+
+    get numVoted(): number {
+        return this.ballots.filter(ballot => ballot != null).length;
     }
 
     abstract getWinningVotes(): [winner: Vote, votes: number, numVoted: number];

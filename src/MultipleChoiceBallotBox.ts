@@ -3,8 +3,8 @@ import {ConsensusLevel} from "./ConsensusLevel";
 
 class MultipleChoiceBallotBox<Choice> extends BallotBox<Choice> {
     options: Array<Choice>
-    constructor(size: number, consensus: number, strategy: ConsensusLevel<Choice>, options: Array<Choice>) {
-        super(size, consensus, strategy);
+    constructor(size: number, strategy: ConsensusLevel<Choice>, options: Array<Choice>) {
+        super(size, strategy);
         this.options = options;
     }
 
@@ -22,13 +22,12 @@ class MultipleChoiceBallotBox<Choice> extends BallotBox<Choice> {
                 return n2 - n1;
             });
 
-        let numNulls = this.ballots.filter(ballot => ballot == null).length;
-
+        let numVoted = this.numVoted;
         if (results[0][1] == results[1][1]) {
-            return [null, results[0][1], this.ballots.length - numNulls];
+            return [null, results[0][1], numVoted];
         }
 
-        return [results[0][0], results[0][1], this.ballots.length - numNulls];
+        return [results[0][0], results[0][1], numVoted];
     }
 }
 

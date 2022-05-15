@@ -2,12 +2,12 @@ import 'jest';
 import BooleanBallotBox from "../../src/BooleanBallotBox";
 import {GlobalConsensus} from "../../src/ConsensusLevel";
 
-let strategy = new GlobalConsensus<boolean>();
+let strategy = new GlobalConsensus<boolean>(0.5);
 let box: BooleanBallotBox;
 
 describe("Testing BooleanBallotBox", () => {
    beforeEach(() => {
-      box = new BooleanBallotBox(3, 0.5, strategy);
+      box = new BooleanBallotBox(3, strategy);
    });
 
    it("says there are no true votes", async () => {
