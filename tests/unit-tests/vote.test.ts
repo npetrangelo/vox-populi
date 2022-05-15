@@ -1,19 +1,19 @@
 import 'jest';
 import BooleanBallotBox from "../../src/BooleanBallotBox";
-import {GlobalConsensus} from "../../src/ConsensusLevel";
+import {GlobalConsensus} from "../../src/CountingStrategy";
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-let level = new GlobalConsensus<boolean>(0.5);
+let strategy = new GlobalConsensus<boolean>(0.5);
 let box1: BooleanBallotBox;
 let box2: BooleanBallotBox;
 
 describe("Testing the merging of Ballot Boxes", () => {
     beforeEach(() => {
-        box1 = new BooleanBallotBox(3, level);
-        box2 = new BooleanBallotBox(3, level);
+        box1 = new BooleanBallotBox(3, strategy);
+        box2 = new BooleanBallotBox(3, strategy);
     });
 
     it("checks that merged ballot boxes contain the same votes as each other", () => {

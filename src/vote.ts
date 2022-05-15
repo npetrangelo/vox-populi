@@ -6,7 +6,7 @@
 //     }
 // }
 
-import {ConsensusLevel} from "./ConsensusLevel";
+import {CountingStrategy} from "./CountingStrategy";
 
 class Ballot<Vote> {
     vote: Vote
@@ -20,8 +20,8 @@ class Ballot<Vote> {
 export abstract class BallotBox<Vote> {
     isOpen: boolean
     ballots: Array<Ballot<Vote>>
-    strategy: ConsensusLevel<Vote>
-    protected constructor(size: number, strategy: ConsensusLevel<Vote>) {
+    strategy: CountingStrategy<Vote>
+    protected constructor(size: number, strategy: CountingStrategy<Vote>) {
         this.isOpen = true;
         this.strategy = strategy;
         this.ballots = new Array<Ballot<Vote>>(size);

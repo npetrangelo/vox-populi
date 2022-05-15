@@ -1,6 +1,6 @@
 import 'jest';
 import MultipleChoiceBallotBox from "../../src/MultipleChoiceBallotBox";
-import {Average, GlobalConsensus, VoterConsensus} from "../../src/ConsensusLevel";
+import {Average, GlobalConsensus, VoterConsensus} from "../../src/CountingStrategy";
 
 let options = ["Alice", "Bob", "Charles"];
 let box: MultipleChoiceBallotBox<string>;

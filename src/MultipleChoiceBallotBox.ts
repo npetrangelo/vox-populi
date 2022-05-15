@@ -1,9 +1,9 @@
 import { BallotBox } from "./vote";
-import {ConsensusLevel} from "./ConsensusLevel";
+import {CountingStrategy} from "./CountingStrategy";
 
 class MultipleChoiceBallotBox<Choice> extends BallotBox<Choice> {
     options: Array<Choice>
-    constructor(size: number, strategy: ConsensusLevel<Choice>, options: Array<Choice>) {
+    constructor(size: number, strategy: CountingStrategy<Choice>, options: Array<Choice>) {
         super(size, strategy);
         this.options = options;
     }

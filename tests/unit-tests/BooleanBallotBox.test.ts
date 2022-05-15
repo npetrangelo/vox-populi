@@ -1,6 +1,6 @@
 import 'jest';
 import BooleanBallotBox from "../../src/BooleanBallotBox";
-import {GlobalConsensus} from "../../src/ConsensusLevel";
+import {GlobalConsensus} from "../../src/CountingStrategy";
 
 let strategy = new GlobalConsensus<boolean>(0.5);
 let box: BooleanBallotBox;
