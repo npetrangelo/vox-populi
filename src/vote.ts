@@ -41,11 +41,10 @@ export abstract class BallotBox<Vote> {
         return this.getWinner();
     }
 
-    protected abstract getWinningVotes(): [winner: Vote, votes: number, numVoted: number];
+    abstract getWinningVotes(): [winner: Vote, votes: number, numVoted: number];
 
     getWinner(): Vote {
-        let [winner, votes, numVoted] = this.getWinningVotes();
-        return this.strategy.getWinner(this, winner, votes, numVoted);
+        return this.strategy.getWinner(this);
     }
 
     merge(that: BallotBox<Vote>) {
