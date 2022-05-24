@@ -1,4 +1,4 @@
-import {BallotBox} from "../ballot_boxes/ballotBox";
+import {BallotBox} from "../ballot_boxes/BallotBox";
 import {CountingStrategy} from "./CountingStrategy";
 
 export class VoterConsensus<Vote> implements CountingStrategy<Vote> {

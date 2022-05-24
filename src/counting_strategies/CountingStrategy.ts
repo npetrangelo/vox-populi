@@ -1,4 +1,4 @@
-import {BallotBox} from "../ballot_boxes/ballotBox";
+import {BallotBox} from "../ballot_boxes/BallotBox";
 import MultipleChoiceBallotBox from "../ballot_boxes/MultipleChoiceBallotBox";
 
 export interface CountingStrategy<Vote> {

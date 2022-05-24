@@ -1,4 +1,4 @@
-import { BallotBox } from "./ballotBox";
+import { BallotBox } from "./BallotBox";
 import {CountingStrategy} from "../counting_strategies/CountingStrategy";
 
 class BooleanBallotBox extends BallotBox<boolean> {
