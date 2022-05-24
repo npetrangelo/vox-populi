@@ -1,6 +1,6 @@
 import 'jest';
-import BooleanBallotBox from "../../src/ballot_boxes/BooleanBallotBox";
-import {GlobalConsensus} from "../../src/counting_strategies/Consensus";
+import BooleanBallotBox from "../../../src/ballot_boxes/BooleanBallotBox";
+import {GlobalConsensus} from "../../../src/counting_strategies/Consensus";
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));

@@ -1,9 +1,8 @@
 import 'jest';
-import MultipleChoiceBallotBox from "../../src/ballot_boxes/MultipleChoiceBallotBox";
-import {Average} from "../../src/counting_strategies/CountingStrategy";
-import {GlobalConsensus, VoterConsensus} from "../../src/counting_strategies/Consensus";
+import MultipleChoiceBallotBox from "../../../src/ballot_boxes/MultipleChoiceBallotBox";
+import {GlobalConsensus, VoterConsensus} from "../../../src/counting_strategies/Consensus";
 
-let options = ["Alice", "Bob", "Charles"];
+let options = new Set(["Alice", "Bob", "Charles"]);
 let box: MultipleChoiceBallotBox<string>;
 
 describe("Testing VoterConsensus level", () => {
@@ -53,18 +52,3 @@ describe("Testing GlobalConsensus level", () => {
         expect(box.getWinner()).toBe("Alice");
     });
 });
-
-let numOptions = [0, 1];
-let avgBox: MultipleChoiceBallotBox<number>;
-
-describe("Testing Average counting strategy", () => {
-    beforeEach(() => {
-        avgBox = new MultipleChoiceBallotBox<number>(2, new Average(), numOptions);
-    });
-
-    it("says the winner is 0.5", () => {
-        avgBox.placeVote(0, 0);
-        avgBox.placeVote(1, 1);
-        expect(avgBox.getWinner()).toBe(0.5);
-    });
-})
