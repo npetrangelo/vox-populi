@@ -1,32 +1,8 @@
-import {BallotBox} from "../vote";
+import {BallotBox} from "../ballot_boxes/ballotBox";
 import MultipleChoiceBallotBox from "../ballot_boxes/MultipleChoiceBallotBox";
 
 export interface CountingStrategy<Vote> {
     getWinner(box: BallotBox<Vote>): Vote;
-}
-
-export class VoterConsensus<Vote> implements CountingStrategy<Vote> {
-    consensus: number
-    constructor(consensus: number) {
-        this.consensus = consensus;
-    }
-
-    getWinner(box: BallotBox<Vote>): Vote {
-        let [winner, votes] = box.getWinningVotes();
-        return (votes >= this.consensus * box.numVoted) ? winner : null;
-    }
-}
-
-export class GlobalConsensus<Vote> implements CountingStrategy<Vote> {
-    consensus: number
-    constructor(consensus: number) {
-        this.consensus = consensus;
-    }
-
-    getWinner(box: BallotBox<Vote>): Vote {
-        let [winner, votes] = box.getWinningVotes();
-        return (votes >= this.consensus * box.ballots.length) ? winner : null;
-    }
 }
 
 export class VoterThreshold<Vote> implements CountingStrategy<Vote> {

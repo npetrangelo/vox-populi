@@ -6,7 +6,7 @@
 //     }
 // }
 
-import {CountingStrategy} from "./counting_strategies/CountingStrategy";
+import {CountingStrategy} from "../counting_strategies/CountingStrategy";
 
 class Ballot<Vote> {
     vote: Vote
