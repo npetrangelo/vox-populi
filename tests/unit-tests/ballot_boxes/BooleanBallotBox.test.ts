@@ -1,13 +1,13 @@
 import 'jest';
-import BooleanBallotBox from "../../../src/ballot_boxes/BooleanBallotBox";
 import {GlobalConsensus} from "../../../src/counting_strategies/Consensus";
+import {BallotBox} from "../../../src/ballot_boxes/BallotBox";
 
 let strategy = new GlobalConsensus<boolean>(0.5);
-let box: BooleanBallotBox;
+let box: BallotBox<boolean>;
 
-describe("Testing BooleanBallotBox", () => {
+describe("Testing Boolean BallotBox", () => {
    beforeEach(() => {
-      box = new BooleanBallotBox(3, strategy);
+      box = new BallotBox<boolean>(3, strategy);
    });
 
    it("says there are no true votes", async () => {

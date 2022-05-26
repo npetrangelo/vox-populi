@@ -1,5 +1,4 @@
 import {BallotBox} from "../ballot_boxes/BallotBox";
-import MultipleChoiceBallotBox from "../ballot_boxes/MultipleChoiceBallotBox";
 
 export interface CountingStrategy<Vote> {
     getWinner(box: BallotBox<Vote>): Vote;
@@ -23,7 +22,7 @@ export class VoterThreshold<Vote> implements CountingStrategy<Vote> {
 }
 
 export class Average implements CountingStrategy<number> {
-    getWinner(box: MultipleChoiceBallotBox<number>): number {
+    getWinner(box: BallotBox<number>): number {
         return Array.from(box.votes.values()).reduce((previousValue, currentValue) => previousValue + currentValue)/box.numVoted;
     }
 }

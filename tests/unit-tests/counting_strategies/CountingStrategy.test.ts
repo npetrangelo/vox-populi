@@ -1,13 +1,12 @@
 import 'jest';
-import MultipleChoiceBallotBox from "../../../src/ballot_boxes/MultipleChoiceBallotBox";
 import {Average} from "../../../src/counting_strategies/CountingStrategy";
+import {BallotBox} from "../../../src/ballot_boxes/BallotBox";
 
-let numOptions = new Set([0, 1]);
-let avgBox: MultipleChoiceBallotBox<number>;
+let avgBox: BallotBox<number>;
 
 describe("Testing Average counting strategy", () => {
     beforeEach(() => {
-        avgBox = new MultipleChoiceBallotBox<number>(2, new Average(), numOptions);
+        avgBox = new BallotBox<number>(2, new Average());
     });
 
     it("says the winner is 0.5", () => {

@@ -17,12 +17,12 @@ class Ballot<Vote> {
     }
 }
 
-export abstract class BallotBox<Vote> {
+export class BallotBox<Vote> {
     isOpen: boolean
     size: number
     ballots: Map<string, Ballot<Vote>>
     strategy: CountingStrategy<Vote>
-    protected constructor(size: number, strategy: CountingStrategy<Vote>) {
+    constructor(size: number, strategy: CountingStrategy<Vote>) {
         this.isOpen = true;
         this.strategy = strategy;
         this.size = size;
@@ -43,8 +43,6 @@ export abstract class BallotBox<Vote> {
     get numVoted(): number {
         return Array.from(this.ballots.keys()).length;
     }
-
-    abstract getWinningVotes(): [winner: Vote, votes: number];
 
     getWinner(): Vote {
         return this.strategy.getWinner(this);

@@ -1,14 +1,13 @@
 import 'jest';
-import MultipleChoiceBallotBox from "../../../src/ballot_boxes/MultipleChoiceBallotBox";
 import {GlobalConsensus, VoterConsensus} from "../../../src/counting_strategies/Consensus";
+import {BallotBox} from "../../../src/ballot_boxes/BallotBox";
 
-let options = new Set(["Alice", "Bob", "Charles"]);
-let box: MultipleChoiceBallotBox<string>;
+let box: BallotBox<string>;
 
 describe("Testing VoterConsensus level", () => {
     beforeEach(() => {
         let strategy = new VoterConsensus<string>(0.5);
-        box = new MultipleChoiceBallotBox<string>(5, strategy, options);
+        box = new BallotBox<string>(5, strategy);
     });
 
     it("returns null if there is a tie", () => {
@@ -26,7 +25,7 @@ describe("Testing VoterConsensus level", () => {
 describe("Testing GlobalConsensus level", () => {
     beforeEach(() => {
         let strategy = new GlobalConsensus<string>(0.5);
-        box = new MultipleChoiceBallotBox<string>(6, strategy, options);
+        box = new BallotBox<string>(6, strategy);
     });
 
     it("returns null if there aren't enough votes", () => {
