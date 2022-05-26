@@ -4,7 +4,8 @@
     "moduleResolution": "Node",
     "target": "es5",
     "sourceMap": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "downlevelIteration": true,
   },
   "ts-node": {
     "esm": true
