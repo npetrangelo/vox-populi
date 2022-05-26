@@ -11,8 +11,8 @@ describe("Testing Average counting strategy", () => {
     });
 
     it("says the winner is 0.5", () => {
-        avgBox.placeVote(0, 0);
-        avgBox.placeVote(1, 1);
+        avgBox.placeVote("A", 0);
+        avgBox.placeVote("B", 1);
         expect(avgBox.getWinner()).toBe(0.5);
     });
 })

@@ -15,7 +15,7 @@ export class VoterThreshold<Vote> implements CountingStrategy<Vote> {
 
     getWinner(box: BallotBox<Vote>): Vote {
         // No one wins unless enough people have voted
-        if (box.numVoted < this.threshold * box.ballots.length) {
+        if (box.numVoted < this.threshold * box.size) {
             return null;
         }
         return this.ifEnough.getWinner(box);
@@ -24,6 +24,6 @@ export class VoterThreshold<Vote> implements CountingStrategy<Vote> {
 
 export class Average implements CountingStrategy<number> {
     getWinner(box: MultipleChoiceBallotBox<number>): number {
-        return box.votes.reduce((previousValue, currentValue) => previousValue + currentValue)/box.numVoted;
+        return Array.from(box.votes.values()).reduce((previousValue, currentValue) => previousValue + currentValue)/box.numVoted;
     }
 }

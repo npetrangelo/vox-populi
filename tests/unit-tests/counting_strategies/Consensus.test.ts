@@ -12,13 +12,13 @@ describe("Testing VoterConsensus level", () => {
     });
 
     it("returns null if there is a tie", () => {
-        box.placeVote(0, "Alice");
-        box.placeVote(1, "Bob");
+        box.placeVote("A", "Alice");
+        box.placeVote("B", "Bob");
         expect(box.getWinner()).toBe(null);
     });
 
     it("lets the choice with the most votes win", () => {
-        box.placeVote(0, "Alice");
+        box.placeVote("A", "Alice");
         expect(box.getWinner()).toBe("Alice");
     });
 });
@@ -30,25 +30,25 @@ describe("Testing GlobalConsensus level", () => {
     });
 
     it("returns null if there aren't enough votes", () => {
-        box.placeVote(0, "Alice");
-        box.placeVote(1, "Bob");
+        box.placeVote("A", "Alice");
+        box.placeVote("B", "Bob");
         expect(box.getWinner()).toBe(null);
     });
 
     it("returns null if there is a tie", () => {
-        box.placeVote(0, "Alice");
-        box.placeVote(1, "Alice");
-        box.placeVote(2, "Alice");
-        box.placeVote(3, "Bob");
-        box.placeVote(4, "Bob");
-        box.placeVote(5, "Bob");
+        box.placeVote("A", "Alice");
+        box.placeVote("B", "Alice");
+        box.placeVote("C", "Alice");
+        box.placeVote("D", "Bob");
+        box.placeVote("E", "Bob");
+        box.placeVote("F", "Bob");
         expect(box.getWinner()).toBe(null);
     });
 
     it("returns the candidate with enough votes and the most votes", () => {
-        box.placeVote(0, "Alice");
-        box.placeVote(1, "Alice");
-        box.placeVote(2, "Alice");
+        box.placeVote("A", "Alice");
+        box.placeVote("B", "Alice");
+        box.placeVote("C", "Alice");
         expect(box.getWinner()).toBe("Alice");
     });
 });

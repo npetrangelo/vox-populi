@@ -17,8 +17,8 @@ describe("Testing the merging of Ballot Boxes", () => {
     });
 
     it("checks that merged ballot boxes contain the same votes as each other", () => {
-        box1.placeVote(0, true);
-        box2.placeVote(1, true);
+        box1.placeVote("A", true);
+        box2.placeVote("B", true);
 
         box1.merge(box2);
         box2.merge(box1);
@@ -26,30 +26,32 @@ describe("Testing the merging of Ballot Boxes", () => {
     });
 
     it("has correct vote summary after a merge", () => {
-        box1.placeVote(0, true);
-        box2.placeVote(1, true);
+        box1.placeVote("A", true);
+        box2.placeVote("B", true);
 
         box1.merge(box2);
-        expect(box1.votes).toEqual([true, true, null]);
+        let expected = new Map<string, boolean>([["A", true], ["B", true]]);
+        expect(box1.votes).toEqual(expected);
     });
 
     it("takes most recent votes in a merge", async () => {
-        box1.placeVote(1, false);
-        box2.placeVote(0, false);
+        box1.placeVote("B", false);
+        box2.placeVote("A", false);
 
         await sleep(3);
 
-        box1.placeVote(0, true);
-        box2.placeVote(1, true);
+        box1.placeVote("A", true);
+        box2.placeVote("B", true);
 
         box1.merge(box2);
-        expect(box1.votes).toEqual([true, true, null]);
+        let expected = new Map<string, boolean>([["A", true], ["B", true]]);
+        expect(box1.votes).toEqual(expected);
     });
 
     it("doesn't let people vote after box is closed", () => {
-        box1.placeVote(0, true);
+        box1.placeVote("A", true);
         box1.close();
-        box1.placeVote(0, false);
-        expect(box1.votes[0]).toBe(true);
+        box1.placeVote("A", false);
+        expect(box1.votes.get("A")).toBe(true);
     });
 });

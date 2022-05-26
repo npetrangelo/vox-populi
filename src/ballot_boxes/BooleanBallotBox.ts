@@ -8,10 +8,8 @@ class BooleanBallotBox extends BallotBox<boolean> {
 
     getWinningVotes(): [boolean, number] {
         let yay = 0;
-        for (let ballot of this.ballots) {
-            if (ballot != null) {
-                yay += (ballot.vote) ? 1 : 0;
-            }
+        for (let vote of this.votes.values()) {
+            yay += vote ? 1 : -1;
         }
         return [true, yay];
     }

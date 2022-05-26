@@ -19,18 +19,19 @@ class Ballot<Vote> {
 
 export abstract class BallotBox<Vote> {
     isOpen: boolean
-    ballots: Array<Ballot<Vote>>
+    size: number
+    ballots: Map<string, Ballot<Vote>>
     strategy: CountingStrategy<Vote>
     protected constructor(size: number, strategy: CountingStrategy<Vote>) {
         this.isOpen = true;
         this.strategy = strategy;
-        this.ballots = new Array<Ballot<Vote>>(size);
-        this.ballots.fill(null);
+        this.size = size;
+        this.ballots = new Map<string, Ballot<Vote>>();
     }
 
-    placeVote(index: number, vote: Vote) {
+    placeVote(key: string, vote: Vote) {
         if (this.isOpen) {
-            this.ballots[index] = new Ballot<Vote>(vote);
+            this.ballots.set(key, new Ballot<Vote>(vote));
         }
     }
 
@@ -40,7 +41,7 @@ export abstract class BallotBox<Vote> {
     }
 
     get numVoted(): number {
-        return this.ballots.filter(ballot => ballot != null).length;
+        return Array.from(this.ballots.keys()).length;
     }
 
     abstract getWinningVotes(): [winner: Vote, votes: number];
@@ -50,28 +51,30 @@ export abstract class BallotBox<Vote> {
     }
 
     merge(that: BallotBox<Vote>) {
-        for (let i = 0; i < this.ballots.length; i++) {
-            if (that.ballots[i] == null) {
+        if (this.size != that.size) {
+            return;
+        }
+        if (!that.isOpen) {
+            this.isOpen = false;
+        }
+        for (let key of that.ballots.keys()) {
+            if (!this.ballots.has(key)) {
+                this.ballots.set(key, that.ballots.get(key));
                 continue;
             }
 
-            if (this.ballots[i] == null) {
-                this.ballots[i] = that.ballots[i];
-                continue;
-            }
-
-            if (that.ballots[i].timestamp > this.ballots[i].timestamp) {
-                this.ballots[i] = that.ballots[i];
+            if (that.ballots.get(key).timestamp > this.ballots.get(key).timestamp) {
+                this.ballots.set(key, that.ballots.get(key));
             }
         }
     }
 
-    get votes(): Array<Vote> {
-        return this.ballots.map(ballot => {
-            if (ballot == null) {
-                return null;
-            }
-            return ballot.vote;
-        });
+    get votes(): Map<string, Vote> {
+        let votes = new Map<string, Vote>();
+        for (let key of this.ballots.keys()) {
+            votes.set(key, this.ballots.get(key).vote);
+        }
+        return votes;
+        // return Array.from(this.ballots.values()).map(ballot => ballot.vote);
     }
 }

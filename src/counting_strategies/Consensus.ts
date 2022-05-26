@@ -23,6 +23,6 @@ export class GlobalConsensus<Vote> implements CountingStrategy<Vote> {
 
     getWinner(box: BallotBox<Vote>): Vote {
         let [winner, votes] = box.getWinningVotes();
-        return (votes >= this.consensus * box.ballots.length) ? winner : null;
+        return (votes >= this.consensus * box.size) ? winner : null;
     }
 }
