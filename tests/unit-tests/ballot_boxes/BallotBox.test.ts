@@ -24,6 +24,7 @@ describe("Testing the merging of Ballot Boxes", () => {
         box1.merge(box2);
         box2.merge(box1);
         expect(box1.votes).toEqual(box2.votes);
+        expect(box1.histogram).toEqual(box2.histogram);
     });
 
     it("has correct histogram after a merge", () => {
