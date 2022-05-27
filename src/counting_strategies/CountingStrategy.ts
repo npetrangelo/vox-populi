@@ -23,10 +23,10 @@ export class VoterThreshold<Vote> implements CountingStrategy<Vote> {
 
 export class Average implements CountingStrategy<number> {
     getWinner(box: BallotBox<number>): number {
-        let average = 0;
+        let sum = 0;
         for (let [vote, frequency] of box.histogram.map.entries()) {
-            average += vote * frequency
+            sum += vote * frequency
         }
-        return average/box.numVoted;
+        return sum/box.numVoted;
     }
 }
