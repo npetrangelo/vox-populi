@@ -3,9 +3,7 @@ class Histogram<Vote> {
     constructor(votes?: Array<Vote>) {
         this.map = new Map<Vote, number>();
         if (votes) {
-            for (let vote of votes) {
-                this.add(vote);
-            }
+            this.addList(votes);
         }
     }
 
@@ -24,6 +22,12 @@ class Histogram<Vote> {
         this.map.set(vote, this.get(vote) + 1);
     }
 
+    addList(votes: Array<Vote>) {
+        for (let vote of votes) {
+            this.add(vote);
+        }
+    }
+
     subtract(vote: Vote) {
         if (!this.map.has(vote)) {
             return;
@@ -31,6 +35,12 @@ class Histogram<Vote> {
         this.map.set(vote, this.map.get(vote) - 1);
         if (this.map.get(vote) == 0) {
             this.map.delete(vote);
+        }
+    }
+
+    subtractList(votes: Array<Vote>) {
+        for (let vote of votes) {
+            this.subtract(vote);
         }
     }
 

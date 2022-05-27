@@ -31,12 +31,7 @@ describe("Testing Histogram", () => {
     });
 
     it("takes the top N entries in the histogram", () => {
-        histogram.add("A");
-        histogram.add("A");
-        histogram.add("A");
-        histogram.add("B");
-        histogram.add("B");
-        histogram.add("C");
+        histogram.addList(["A", "A", "A", "B", "B", "C"])
         expect(histogram.topN(2)).toEqual([["A", 3], ["B", 2]]);
     });
 });
