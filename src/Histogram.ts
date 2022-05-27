@@ -24,6 +24,12 @@ class Histogram<Vote> {
             this.map.delete(vote);
         }
     }
+
+    topN(n: number): Array<[Vote, number]> {
+        return Array.from(this.map.entries())
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, n);
+    }
 }
 
 export default Histogram;
