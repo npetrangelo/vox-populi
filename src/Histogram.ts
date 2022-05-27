@@ -1,7 +1,7 @@
 class Histogram<Vote> {
-    private map: Map<Vote, number>
-    constructor() {
-        this.map = new Map<Vote, number>();
+    readonly map: Map<Vote, number>
+    constructor(arr?: Array<[Vote, number]>) {
+        this.map = new Map<Vote, number>(arr);
     }
 
     get size(): number {

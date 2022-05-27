@@ -7,6 +7,7 @@
 // }
 
 import {CountingStrategy} from "../counting_strategies/CountingStrategy";
+import Histogram from "../Histogram";
 
 class Ballot<Vote> {
     vote: Vote
@@ -20,17 +21,25 @@ class Ballot<Vote> {
 export class BallotBox<Vote> {
     isOpen: boolean
     size: number
-    ballots: Map<string, Ballot<Vote>>
     strategy: CountingStrategy<Vote>
+    ballots: Map<string, Ballot<Vote>>
+    histogram: Histogram<Vote>
     constructor(size: number, strategy: CountingStrategy<Vote>) {
         this.isOpen = true;
-        this.strategy = strategy;
         this.size = size;
+        this.strategy = strategy;
         this.ballots = new Map<string, Ballot<Vote>>();
+        this.histogram = new Histogram<Vote>();
     }
 
     placeVote(key: string, vote: Vote) {
         if (this.isOpen) {
+            if (this.ballots.has(key)) {
+                // Overriding a previous vote, subtract old vote from histogram
+                let oldVote = this.ballots.get(key).vote;
+                this.histogram.subtract(oldVote);
+            }
+            this.histogram.add(vote);
             this.ballots.set(key, new Ballot<Vote>(vote));
         }
     }
@@ -56,12 +65,17 @@ export class BallotBox<Vote> {
             this.isOpen = false;
         }
         for (let key of that.ballots.keys()) {
+            let vote = that.ballots.get(key).vote;
             if (!this.ballots.has(key)) {
+                this.histogram.add(vote);
                 this.ballots.set(key, that.ballots.get(key));
                 continue;
             }
 
             if (that.ballots.get(key).timestamp > this.ballots.get(key).timestamp) {
+                let oldVote = this.ballots.get(key).vote;
+                this.histogram.subtract(oldVote);
+                this.histogram.add(vote);
                 this.ballots.set(key, that.ballots.get(key));
             }
         }

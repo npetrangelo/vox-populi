@@ -3,20 +3,14 @@ import {CountingStrategy} from "./CountingStrategy";
 import Histogram from "../Histogram";
 
 function getWinningVotes<Choice>(box: BallotBox<Choice>): [Choice, number] {
-    let histogram = new Histogram<Choice>();
-
-    for (let vote of box.votes.values()) {
-        histogram.add(vote);
-    }
-
-    if (histogram.size == 0) {
+    if (box.histogram.size == 0) {
         return [null, 0];
     }
-    if (histogram.size == 1) {
-        return histogram.topN(1)[0];
+    if (box.histogram.size == 1) {
+        return box.histogram.topN(1)[0];
     }
 
-    let [max, second] = histogram.topN(2);
+    let [max, second] = box.histogram.topN(2);
     if (max[1] == second[1]) {
         return [null, max[1]];
     }

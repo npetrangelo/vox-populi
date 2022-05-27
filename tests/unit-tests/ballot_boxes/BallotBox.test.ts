@@ -1,6 +1,7 @@
 import 'jest';
 import {GlobalConsensus} from "../../../src/counting_strategies/Consensus";
 import {BallotBox} from "../../../src/ballot_boxes/BallotBox";
+import Histogram from "../../../src/Histogram";
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -25,13 +26,13 @@ describe("Testing the merging of Ballot Boxes", () => {
         expect(box1.votes).toEqual(box2.votes);
     });
 
-    it("has correct vote summary after a merge", () => {
+    it("has correct histogram after a merge", () => {
         box1.placeVote("A", true);
         box2.placeVote("B", true);
 
         box1.merge(box2);
-        let expected = new Map<string, boolean>([["A", true], ["B", true]]);
-        expect(box1.votes).toEqual(expected);
+        let expected = new Histogram<boolean>([[true, 2]]);
+        expect(box1.histogram).toEqual(expected);
     });
 
     it("takes most recent votes in a merge", async () => {
@@ -44,8 +45,8 @@ describe("Testing the merging of Ballot Boxes", () => {
         box2.placeVote("B", true);
 
         box1.merge(box2);
-        let expected = new Map<string, boolean>([["A", true], ["B", true]]);
-        expect(box1.votes).toEqual(expected);
+        let expected = new Histogram<boolean>([[true, 2]]);
+        expect(box1.histogram).toEqual(expected);
     });
 
     it("doesn't let people vote after box is closed", () => {
