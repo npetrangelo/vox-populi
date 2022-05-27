@@ -32,7 +32,7 @@ describe("Testing the merging of Ballot Boxes", () => {
         box2.placeVote("B", true);
 
         box1.merge(box2);
-        let expected = new Histogram<boolean>([[true, 2]]);
+        let expected = new Histogram<boolean>([true, true]);
         expect(box1.histogram).toEqual(expected);
     });
 
@@ -46,7 +46,7 @@ describe("Testing the merging of Ballot Boxes", () => {
         box2.placeVote("B", true);
 
         box1.merge(box2);
-        let expected = new Histogram<boolean>([[true, 2]]);
+        let expected = new Histogram<boolean>([true, true]);
         expect(box1.histogram).toEqual(expected);
     });
 
@@ -54,7 +54,7 @@ describe("Testing the merging of Ballot Boxes", () => {
         box1.placeVote("A", true);
         box1.placeVote("A", false);
         expect(box1.votes.get("A")).toBe(false);
-        let expected = new Histogram<boolean>([[false, 1]]);
+        let expected = new Histogram<boolean>([false]);
         expect(box1.histogram).toEqual(expected);
     });
 
