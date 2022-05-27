@@ -1,28 +1,25 @@
 import {BallotBox} from "../ballot_boxes/BallotBox";
 import {CountingStrategy} from "./CountingStrategy";
+import Histogram from "../Histogram";
 
 function getWinningVotes<Choice>(box: BallotBox<Choice>): [Choice, number] {
-    let histogram = new Map<Choice, number>();
+    let histogram = new Histogram<Choice>();
 
     for (let vote of box.votes.values()) {
-        if (!histogram.has(vote)) {
-            histogram.set(vote, 0);
-        }
-        histogram.set(vote, histogram.get(vote) + 1);
+        histogram.add(vote);
     }
 
-    let max: [Choice, number] = [null, 0];
-    let second: [Choice, number] = max;
-    for (let entry of histogram.entries()) {
-        if (entry[1] >= max[1]) {
-            second = max;
-            max = entry;
-        }
+    if (histogram.size == 0) {
+        return [null, 0];
     }
+    if (histogram.size == 1) {
+        return histogram.topN(1)[0];
+    }
+
+    let [max, second] = histogram.topN(2);
     if (max[1] == second[1]) {
         return [null, max[1]];
     }
-
     return max;
 }
 
