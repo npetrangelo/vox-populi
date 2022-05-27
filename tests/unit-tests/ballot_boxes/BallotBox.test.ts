@@ -50,6 +50,14 @@ describe("Testing the merging of Ballot Boxes", () => {
         expect(box1.histogram).toEqual(expected);
     });
 
+    it("lets people override votes", () => {
+        box1.placeVote("A", true);
+        box1.placeVote("A", false);
+        expect(box1.votes.get("A")).toBe(false);
+        let expected = new Histogram<boolean>([[false, 1]]);
+        expect(box1.histogram).toEqual(expected);
+    });
+
     it("doesn't let people vote after box is closed", () => {
         box1.placeVote("A", true);
         box1.close();
