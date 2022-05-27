@@ -8,6 +8,12 @@ describe("Testing Histogram", () => {
         histogram = new Histogram<string>();
     });
 
+    it("gets the right size", () => {
+        expect(histogram.size).toEqual(0);
+        histogram.add("A");
+        expect(histogram.size).toEqual(1);
+    });
+
     it("gets zero for anything not in the histogram", () => {
         expect(histogram.get("A")).toEqual(0);
     });

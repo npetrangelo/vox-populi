@@ -4,6 +4,10 @@ class Histogram<Vote> {
         this.map = new Map<Vote, number>();
     }
 
+    get size(): number {
+        return this.map.size;
+    }
+
     get(vote: Vote): number {
         if (!this.map.has(vote)) {
             return 0;
