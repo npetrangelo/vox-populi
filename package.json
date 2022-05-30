@@ -1,6 +1,6 @@
 {
   "name": "vox-populi",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "An encrypted conflict-free replicated datatype system for counting votes",
   "main": "dist/index",
   "typings": "dist/index",
@@ -24,13 +24,13 @@
   },
   "homepage": "https://github.com/npetrangelo/vox-populi#readme",
   "dependencies": {
-    "dotenv": "^16.0.1"
   },
   "devDependencies": {
     "@types/jest": "^27.5.1",
     "@types/node": "^7.10.0",
     "babel-cli": "^6.26.0",
     "jest": "^28.1.0",
+    "dotenv": "^16.0.1",
     "supertest": "^6.2.3",
     "ts-jest": "^28.0.2",
     "ts-node": "^3.2.0",
