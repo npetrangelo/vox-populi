@@ -12,7 +12,7 @@ import Histogram from "../Histogram";
 class Ballot<Vote> {
     vote: Vote
     timestamp: number
-    constructor(vote) {
+    constructor(vote: Vote) {
         this.vote = vote;
         this.timestamp = Date.now();
     }

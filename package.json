@@ -2,17 +2,22 @@
   "name": "vox-populi",
   "version": "1.0.0",
   "description": "An encrypted conflict-free replicated datatype system for counting votes",
-  "main": "index.js",
+  "main": "dist/index",
+  "typings": "dist/index",
   "scripts": {
-    "test": "jest --coverage",
-    "test:watch": "jest --watch"
+    "prepublishOnly": "npm run compile",
+    "compile": "npm run clean && tsc -p .",
+    "watch": "tsc -w -p .",
+    "clean": "rm -rf dist",
+    "test": "jest --coverage --roots ./tests",
+    "test:watch": "jest --watch --roots ./tests"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/npetrangelo/vox-populi.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["voting", "democracy"],
+  "author": "Nathan Petrangelo <nathan@petrangelo.org>",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/npetrangelo/vox-populi/issues"
@@ -31,5 +36,10 @@
     "ts-node": "^3.2.0",
     "tslint": "^5.11.0",
     "typescript": "^4.6.4"
-  }
+  },
+  "files": [
+    "dist/index.js",
+    "dist/index.d.ts",
+    "dist/src"
+  ]
 }

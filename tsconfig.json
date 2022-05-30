@@ -2,7 +2,9 @@
   "compilerOptions": {
     "module": "ESNext",
     "moduleResolution": "Node",
-    "target": "es5",
+    "target": "es2018",
+    "outDir": "./dist",
+    "declaration": true,
     "sourceMap": true,
     "esModuleInterop": true,
     "downlevelIteration": true,
@@ -11,7 +13,8 @@
     "esm": true
   },
   "include": [
-    "tests"
+    "src/**/*.ts",
+    "index.ts"
   ],
   "exclude": [
     "node_modules"
