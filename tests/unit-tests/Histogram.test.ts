@@ -34,4 +34,9 @@ describe("Testing Histogram", () => {
         histogram.addList(["A", "A", "A", "B", "B", "C"])
         expect(histogram.topN(2)).toEqual([["A", 3], ["B", 2]]);
     });
+
+    it("takes the top N entries in the histogram", () => {
+        histogram.addList(["A", "A", "A", "B", "B", "C"])
+        expect(histogram.topN()).toEqual([["A", 3], ["B", 2], ["C", 1]]);
+    });
 });
