@@ -1,13 +1,13 @@
 import 'jest';
-import {GlobalConsensus} from "../../../src/counting_strategies/Consensus";
-import {BallotBox} from "../../../src/ballot_boxes/BallotBox";
-import Histogram from "../../../src/Histogram";
+import {BallotBox} from "../../src/BallotBox";
+import Histogram from "../../src/Histogram";
+import {Consensus} from "../../src/CountingStrategy";
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-let strategy = new GlobalConsensus<boolean>(0.5);
+let strategy = new Consensus<boolean>(0.5);
 let box1: BallotBox<boolean>;
 let box2: BallotBox<boolean>;
 

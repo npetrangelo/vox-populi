@@ -6,8 +6,8 @@
 //     }
 // }
 
-import {CountingStrategy} from "../counting_strategies/CountingStrategy";
-import Histogram from "../Histogram";
+import {CountingStrategy} from "./CountingStrategy";
+import Histogram from "./Histogram";
 
 class Ballot<Vote> {
     vote: Vote
