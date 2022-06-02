@@ -19,6 +19,9 @@ export interface CountingStrategy<Vote> {
     getWinner(box: BallotBox<Vote>): Vote;
 }
 
+/**
+ * Requires a percentage of members to opt in
+ */
 export class Consensus<Vote> implements CountingStrategy<Vote> {
     threshold: number
 
@@ -32,6 +35,9 @@ export class Consensus<Vote> implements CountingStrategy<Vote> {
     }
 }
 
+/**
+ * Requires a percentage of members to opt out
+ */
 export class Consent<Vote> implements CountingStrategy<Vote> {
     threshold: number
     constructor(threshold: number) {
