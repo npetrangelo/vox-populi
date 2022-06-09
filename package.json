@@ -3,8 +3,8 @@
   "version": "0.0.7",
   "type": "module",
   "description": "An encrypted conflict-free replicated datatype system for counting votes",
-  "main": "dist/index",
-  "typings": "dist/index",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "scripts": {
     "prepublishOnly": "npm run compile",
     "compile": "npm run clean && tsc -p .",
