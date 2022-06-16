@@ -1,8 +1,9 @@
 {
   "name": "vox-populi",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "An encrypted conflict-free replicated datatype system for counting votes",
   "main": "dist/index.js",
+  "type": "module",
   "typings": "dist/index.d.ts",
   "scripts": {
     "prepublishOnly": "npm run compile",
@@ -29,6 +30,7 @@
   "devDependencies": {
     "@types/jest": "^28.1.1",
     "@types/node": "^17.0.41",
+    "@types/prettier": "^2.6.3",
     "babel-cli": "^6.26.0",
     "dotenv": "^16.0.1",
     "jest": "^28.1.1",
