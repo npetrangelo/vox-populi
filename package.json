@@ -1,9 +1,8 @@
 {
   "name": "vox-populi",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "An encrypted conflict-free replicated datatype system for counting votes",
   "main": "dist/index.js",
-  "type": "module",
   "typings": "dist/index.d.ts",
   "scripts": {
     "prepublishOnly": "npm run compile",
