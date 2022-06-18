@@ -23,7 +23,7 @@ export interface CountingStrategy<Vote> {
  * Requires a percentage of members to opt in
  */
 export class Consensus<Vote> implements CountingStrategy<Vote> {
-    threshold: number
+    threshold!: number
 
     constructor(threshold: number) {
         this.threshold = threshold;
@@ -33,13 +33,16 @@ export class Consensus<Vote> implements CountingStrategy<Vote> {
         let [winner, votes] = getWinningVotes(box);
         return (votes > this.threshold * box.size) ? winner : null;
     }
+
+    static check(strategy: CountingStrategy<any>): strategy is Consensus<any> {
+        return typeof (strategy as Consensus<any>).threshold == "number";    }
 }
 
 /**
  * Requires a percentage of members to opt out
  */
 export class Consent<Vote> implements CountingStrategy<Vote> {
-    threshold: number
+    threshold!: number
     constructor(threshold: number) {
         this.threshold = threshold;
     }
@@ -48,6 +51,10 @@ export class Consent<Vote> implements CountingStrategy<Vote> {
         let [winner, votes] = getWinningVotes(box);
         let opposed = box.numVoted - votes;
         return (opposed <= this.threshold * box.size) ? winner : null;
+    }
+
+    static check(strategy: CountingStrategy<any>): strategy is Consent<any> {
+        return typeof (strategy as Consent<any>).threshold == "number";
     }
 }
 
@@ -69,8 +76,8 @@ export class Plurality<Vote> implements CountingStrategy<Vote> {
 }
 
 export class Quorum<Vote> implements CountingStrategy<Vote> {
-    ifEnough: CountingStrategy<Vote>
-    threshold: number
+    ifEnough!: CountingStrategy<Vote>
+    threshold!: number
     constructor(threshold: number, ifEnough: CountingStrategy<Vote>) {
         this.ifEnough = ifEnough;
         this.threshold = threshold;
@@ -82,6 +89,11 @@ export class Quorum<Vote> implements CountingStrategy<Vote> {
             return null;
         }
         return this.ifEnough.getWinner(box);
+    }
+
+    static check(strategy: CountingStrategy<any>): strategy is Quorum<any> {
+        let s = strategy as Quorum<any>;
+        return typeof s.threshold == "number" && typeof s.ifEnough == "object";
     }
 }
 

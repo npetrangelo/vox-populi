@@ -9,6 +9,38 @@ import {BallotBox} from "../../src/BallotBox";
 
 let box: BallotBox<number>;
 
+describe("Testing Type Predicates", () => {
+    it("returns false when object doesn't have threshold", () => {
+        let object: any = {"banana": 0.5};
+        expect(Consensus.check(object)).toBe(false);
+        expect(Consent.check(object)).toBe(false);
+        expect(Quorum.check(object)).toBe(false);
+    });
+
+    it("returns false when threshold is not a number", () => {
+        let object: any = {"threshold": "0.5"};
+        expect(Consensus.check(object)).toBe(false);
+        expect(Consent.check(object)).toBe(false);
+        expect(Quorum.check(object)).toBe(false);
+    });
+
+    it("returns true when object has threshold", () => {
+        let object: any = {"threshold": 0.5};
+        expect(Consensus.check(object)).toBe(true);
+        expect(Consent.check(object)).toBe(true);
+    });
+
+    it("returns false when ifEnough is not an object", () => {
+        let object: any = {"ifEnough":0.5,"threshold":0.5}
+        expect(Quorum.check(object)).toBe(false);
+    });
+
+    it("returns true when object has threshold and ifEnough", () => {
+        let object: any = {"ifEnough":{"threshold":0.5},"threshold":0.5}
+        expect(Quorum.check(object)).toBe(true);
+    });
+});
+
 describe("Testing Plurality", () => {
     beforeEach(() => {
        box = new BallotBox<number>(2, new Plurality());
