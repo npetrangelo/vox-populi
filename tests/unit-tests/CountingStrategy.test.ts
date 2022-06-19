@@ -7,7 +7,7 @@ import {
 } from "../../src/CountingStrategy";
 import {BallotBox} from "../../src/BallotBox";
 
-let box: BallotBox<number>;
+let box: BallotBox;
 
 describe("Testing Type Predicates", () => {
     it("returns false when object doesn't have threshold", () => {
@@ -43,7 +43,7 @@ describe("Testing Type Predicates", () => {
 
 describe("Testing Plurality", () => {
     beforeEach(() => {
-       box = new BallotBox<number>(2, new Plurality());
+       box = new BallotBox(2, new Plurality());
     });
 
     it("lets the option with the most votes win", () => {
@@ -60,7 +60,7 @@ describe("Testing Plurality", () => {
 
 describe("Testing Plurality with threshold", () => {
     beforeEach(() => {
-        box = new BallotBox<number>(6, new Plurality(0.5));
+        box = new BallotBox(6, new Plurality(0.5));
     });
 
     it("returns null below threshold", () => {
@@ -81,8 +81,8 @@ describe("Testing Plurality with threshold", () => {
 
 describe("Testing Consensus", () => {
     beforeEach(() => {
-        let strategy = new Consensus<number>(0.75);
-        box = new BallotBox<number>(6, strategy);
+        let strategy = new Consensus(0.75);
+        box = new BallotBox(6, strategy);
     });
 
     it("returns the candidate with enough votes and the most votes", () => {
@@ -105,8 +105,8 @@ describe("Testing Consensus", () => {
 
 describe("Testing Consent", () => {
     beforeEach(() => {
-        let strategy = new Consent<number>(0.5);
-        box = new BallotBox<number>(6, strategy);
+        let strategy = new Consent(0.5);
+        box = new BallotBox(6, strategy);
     });
 
     it("lets an option pass when fewer than the threshold vote against it", () => {
@@ -125,8 +125,8 @@ describe("Testing Consent", () => {
 
 describe("Testing Quorum", () => {
     beforeEach(() => {
-        let strategy = new Quorum<number>(0.5, new Plurality<number>());
-        box = new BallotBox<number>(2, strategy);
+        let strategy = new Quorum(0.5, new Plurality());
+        box = new BallotBox(2, strategy);
     });
 
     it("returns null below quorum", () => {
@@ -143,7 +143,13 @@ describe("Testing Quorum", () => {
 
 describe("Testing Average counting strategy", () => {
     beforeEach(() => {
-        box = new BallotBox<number>(2, new Average());
+        box = new BallotBox(2, new Average());
+    });
+
+    it("only allows numerical votes", () => {
+        expect(box.strategy.canCount(1)).toBe(true);
+        expect(box.strategy.canCount("foo")).toBe(false);
+        expect(() => box.placeVote("A", "foo")).toThrow("vote is not the right type");
     });
 
     it("says the winner is 0.5", () => {

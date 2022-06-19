@@ -1,7 +1,7 @@
-class Histogram<Vote> {
-    readonly map: Map<Vote, number>
-    constructor(votes?: Array<Vote>) {
-        this.map = new Map<Vote, number>();
+class Histogram {
+    readonly map: Map<any, number>
+    constructor(votes?: Array<any>) {
+        this.map = new Map<any, number>();
         if (votes) {
             this.addList(votes);
         }
@@ -11,24 +11,24 @@ class Histogram<Vote> {
         return this.map.size;
     }
 
-    get(vote: Vote): number {
+    get(vote: any): number {
         if (!this.map.has(vote)) {
             return 0;
         }
         return this.map.get(vote);
     }
 
-    add(vote: Vote) {
+    add(vote: any) {
         this.map.set(vote, this.get(vote) + 1);
     }
 
-    addList(votes: Array<Vote>) {
+    addList(votes: Array<any>) {
         for (let vote of votes) {
             this.add(vote);
         }
     }
 
-    subtract(vote: Vote) {
+    subtract(vote: any) {
         if (!this.map.has(vote)) {
             return;
         }
@@ -38,13 +38,13 @@ class Histogram<Vote> {
         }
     }
 
-    subtractList(votes: Array<Vote>) {
+    subtractList(votes: Array<any>) {
         for (let vote of votes) {
             this.subtract(vote);
         }
     }
 
-    topN(n?: number): Array<[Vote, number]> {
+    topN(n?: number): Array<[any, number]> {
         let top = Array.from(this.map.entries()).sort((a, b) => b[1] - a[1]);
         if (!n) {
             return top;

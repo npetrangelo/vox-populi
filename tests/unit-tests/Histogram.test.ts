@@ -1,11 +1,11 @@
 import 'jest';
 import Histogram from "../../src/Histogram";
 
-let histogram: Histogram<string>;
+let histogram: Histogram;
 
 describe("Testing Histogram", () => {
     beforeEach(() => {
-        histogram = new Histogram<string>();
+        histogram = new Histogram();
     });
 
     it("gets the right size", () => {

@@ -7,14 +7,14 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-let strategy = new Consensus<boolean>(0.5);
-let box1: BallotBox<boolean>;
-let box2: BallotBox<boolean>;
+let strategy = new Consensus(0.5);
+let box1: BallotBox;
+let box2: BallotBox;
 
 describe("Testing the merging of Ballot Boxes", () => {
     beforeEach(() => {
-        box1 = new BallotBox<boolean>(3, strategy);
-        box2 = new BallotBox<boolean>(3, strategy);
+        box1 = new BallotBox(3, strategy);
+        box2 = new BallotBox(3, strategy);
     });
 
     it("checks that merged ballot boxes contain the same votes as each other", () => {
@@ -32,7 +32,7 @@ describe("Testing the merging of Ballot Boxes", () => {
         box2.placeVote("B", true);
 
         box1.merge(box2);
-        let expected = new Histogram<boolean>([true, true]);
+        let expected = new Histogram([true, true]);
         expect(box1.histogram).toEqual(expected);
     });
 
@@ -46,7 +46,7 @@ describe("Testing the merging of Ballot Boxes", () => {
         box2.placeVote("B", true);
 
         box1.merge(box2);
-        let expected = new Histogram<boolean>([true, true]);
+        let expected = new Histogram([true, true]);
         expect(box1.histogram).toEqual(expected);
     });
 
@@ -54,14 +54,13 @@ describe("Testing the merging of Ballot Boxes", () => {
         box1.placeVote("A", true);
         box1.placeVote("A", false);
         expect(box1.votes.get("A")).toBe(false);
-        let expected = new Histogram<boolean>([false]);
+        let expected = new Histogram([false]);
         expect(box1.histogram).toEqual(expected);
     });
 
     it("doesn't let people vote after box is closed", () => {
         box1.placeVote("A", true);
         box1.close();
-        box1.placeVote("A", false);
-        expect(box1.votes.get("A")).toBe(true);
+        expect(() => box1.placeVote("A", false)).toThrow("box is closed")
     });
 });

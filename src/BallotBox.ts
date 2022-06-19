@@ -9,42 +9,48 @@
 import {CountingStrategy} from "./CountingStrategy";
 import Histogram from "./Histogram";
 
-class Ballot<Vote> {
-    vote: Vote
+class Ballot {
+    vote: any
     timestamp: number
-    constructor(vote: Vote) {
+    constructor(vote: any) {
         this.vote = vote;
         this.timestamp = Date.now();
     }
 }
 
-export class BallotBox<Vote> {
+export class BallotBox {
     isOpen: boolean
     size: number
-    strategy: CountingStrategy<Vote>
-    ballots: Map<string, Ballot<Vote>>
-    histogram: Histogram<Vote>
-    constructor(size: number, strategy: CountingStrategy<Vote>) {
+    strategy: CountingStrategy
+    ballots: Map<string, Ballot>
+    histogram: Histogram
+    constructor(size: number, strategy: CountingStrategy) {
         this.isOpen = true;
         this.size = size;
         this.strategy = strategy;
-        this.ballots = new Map<string, Ballot<Vote>>();
-        this.histogram = new Histogram<Vote>();
+        this.ballots = new Map<string, Ballot>();
+        this.histogram = new Histogram();
     }
 
-    placeVote(key: string, vote: Vote) {
-        if (this.isOpen) {
-            if (this.ballots.has(key)) {
-                // Overriding a previous vote, subtract old vote from histogram
-                let oldVote = this.ballots.get(key).vote;
-                this.histogram.subtract(oldVote);
-            }
-            this.histogram.add(vote);
-            this.ballots.set(key, new Ballot<Vote>(vote));
+    placeVote(key: string, vote: any) {
+        if (!this.isOpen) {
+            throw new Error("box is closed");
         }
+
+        if (!this.strategy.canCount(vote)) {
+            throw new Error("vote is not the right type");
+        }
+
+        if (this.ballots.has(key)) {
+            // Overriding a previous vote, subtract old vote from histogram
+            let oldVote = this.ballots.get(key).vote;
+            this.histogram.subtract(oldVote);
+        }
+        this.histogram.add(vote);
+        this.ballots.set(key, new Ballot(vote));
     }
 
-    close(): Vote {
+    close(): any {
         this.isOpen = false;
         return this.getWinner();
     }
@@ -53,11 +59,11 @@ export class BallotBox<Vote> {
         return Array.from(this.ballots.keys()).length;
     }
 
-    getWinner(): Vote {
+    getWinner(): any {
         return this.strategy.getWinner(this);
     }
 
-    merge(that: BallotBox<Vote>) {
+    merge(that: BallotBox) {
         if (this.size != that.size) {
             return;
         }
@@ -81,8 +87,8 @@ export class BallotBox<Vote> {
         }
     }
 
-    get votes(): Map<string, Vote> {
-        let votes = new Map<string, Vote>();
+    get votes(): Map<string, any> {
+        let votes = new Map<string, any>();
         for (let key of this.ballots.keys()) {
             votes.set(key, this.ballots.get(key).vote);
         }

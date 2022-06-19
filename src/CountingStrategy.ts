@@ -1,6 +1,6 @@
 import {BallotBox} from "./BallotBox";
 
-export function getWinningVotes<Choice>(box: BallotBox<Choice>): [Choice, number] {
+export function getWinningVotes(box: BallotBox): [any, number] {
     if (box.histogram.size == 0) {
         return [null, 0];
     }
@@ -15,50 +15,64 @@ export function getWinningVotes<Choice>(box: BallotBox<Choice>): [Choice, number
     return max;
 }
 
-export interface CountingStrategy<Vote> {
-    getWinner(box: BallotBox<Vote>): Vote;
+export interface CountingStrategy {
+    /**
+     * Returns true if the counting strategy can count the vote
+     * @param vote
+     */
+    canCount(vote: any): boolean;
+    getWinner(box: BallotBox): any;
 }
 
 /**
  * Requires a percentage of members to opt in
  */
-export class Consensus<Vote> implements CountingStrategy<Vote> {
+export class Consensus implements CountingStrategy {
     threshold!: number
 
     constructor(threshold: number) {
         this.threshold = threshold;
     }
 
-    getWinner(box: BallotBox<Vote>): Vote {
+    canCount(vote: any): boolean {
+        return true;
+    }
+
+    getWinner(box: BallotBox): any {
         let [winner, votes] = getWinningVotes(box);
         return (votes > this.threshold * box.size) ? winner : null;
     }
 
-    static check(strategy: CountingStrategy<any>): strategy is Consensus<any> {
-        return typeof (strategy as Consensus<any>).threshold == "number";    }
+    static check(strategy: CountingStrategy): strategy is Consensus {
+        return typeof (strategy as Consensus).threshold == "number";
+    }
 }
 
 /**
  * Requires a percentage of members to opt out
  */
-export class Consent<Vote> implements CountingStrategy<Vote> {
+export class Consent implements CountingStrategy {
     threshold!: number
     constructor(threshold: number) {
         this.threshold = threshold;
     }
 
-    getWinner(box: BallotBox<Vote>): Vote {
+    canCount(vote: any): boolean {
+        return true;
+    }
+
+    getWinner(box: BallotBox): any {
         let [winner, votes] = getWinningVotes(box);
         let opposed = box.numVoted - votes;
         return (opposed <= this.threshold * box.size) ? winner : null;
     }
 
-    static check(strategy: CountingStrategy<any>): strategy is Consent<any> {
-        return typeof (strategy as Consent<any>).threshold == "number";
+    static check(strategy: CountingStrategy): strategy is Consent {
+        return typeof (strategy as Consent).threshold == "number";
     }
 }
 
-export class Plurality<Vote> implements CountingStrategy<Vote> {
+export class Plurality implements CountingStrategy {
     threshold?: number
     constructor(threshold?: number) {
         if (threshold) {
@@ -66,7 +80,11 @@ export class Plurality<Vote> implements CountingStrategy<Vote> {
         }
     }
 
-    getWinner(box: BallotBox<Vote>): Vote {
+    canCount(vote: any): boolean {
+        return true;
+    }
+
+    getWinner(box: BallotBox): any {
         let [winner, votes] = getWinningVotes(box);
         if (!this.threshold) {
             return winner;
@@ -75,15 +93,19 @@ export class Plurality<Vote> implements CountingStrategy<Vote> {
     }
 }
 
-export class Quorum<Vote> implements CountingStrategy<Vote> {
-    ifEnough!: CountingStrategy<Vote>
+export class Quorum implements CountingStrategy {
+    ifEnough!: CountingStrategy
     threshold!: number
-    constructor(threshold: number, ifEnough: CountingStrategy<Vote>) {
+    constructor(threshold: number, ifEnough: CountingStrategy) {
         this.ifEnough = ifEnough;
         this.threshold = threshold;
     }
 
-    getWinner(box: BallotBox<Vote>): Vote {
+    canCount(vote: any): boolean {
+        return this.ifEnough.canCount(vote);
+    }
+
+    getWinner(box: BallotBox): any {
         // No one wins unless enough people have voted
         if (box.numVoted <= this.threshold * box.size) {
             return null;
@@ -91,14 +113,18 @@ export class Quorum<Vote> implements CountingStrategy<Vote> {
         return this.ifEnough.getWinner(box);
     }
 
-    static check(strategy: CountingStrategy<any>): strategy is Quorum<any> {
-        let s = strategy as Quorum<any>;
+    static check(strategy: CountingStrategy): strategy is Quorum {
+        let s = strategy as Quorum;
         return typeof s.threshold == "number" && typeof s.ifEnough == "object";
     }
 }
 
-export class Average implements CountingStrategy<number> {
-    getWinner(box: BallotBox<number>): number {
+export class Average implements CountingStrategy {
+    canCount(vote: any): boolean {
+        return typeof vote === "number";
+    }
+
+    getWinner(box: BallotBox): number {
         let sum = 0;
         for (let [vote, frequency] of box.histogram.map.entries()) {
             sum += vote * frequency
