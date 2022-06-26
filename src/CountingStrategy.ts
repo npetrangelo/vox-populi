@@ -14,10 +14,10 @@ export function getWinningVotes(box: BallotBox): [any, number] {
     }
     return max;
 }
-export type StrategyType = "Consensus"|"Consent"|"Plurality"|"Quorum"|"Average";
 
 export interface CountingStrategy {
-    name: StrategyType
+    threshold?: number;
+    ifEnough?: CountingStrategy;
 
     /**
      * Returns true if the counting strategy can count the vote
@@ -31,7 +31,6 @@ export interface CountingStrategy {
  * Requires a percentage of members to opt in
  */
 export class Consensus implements CountingStrategy {
-    name: StrategyType = "Consensus"
     threshold!: number
 
     constructor(threshold: number) {
@@ -56,7 +55,6 @@ export class Consensus implements CountingStrategy {
  * Requires a percentage of members to opt out
  */
 export class Consent implements CountingStrategy {
-    name: StrategyType = "Consent"
     threshold!: number
     constructor(threshold: number) {
         this.threshold = threshold;
@@ -78,7 +76,6 @@ export class Consent implements CountingStrategy {
 }
 
 export class Plurality implements CountingStrategy {
-    name: StrategyType = "Plurality"
     threshold?: number
     constructor(threshold?: number) {
         if (threshold) {
@@ -100,7 +97,6 @@ export class Plurality implements CountingStrategy {
 }
 
 export class Quorum implements CountingStrategy {
-    name: StrategyType = "Quorum"
     ifEnough!: CountingStrategy
     threshold!: number
     constructor(threshold: number, ifEnough: CountingStrategy) {
@@ -127,7 +123,6 @@ export class Quorum implements CountingStrategy {
 }
 
 export class Average implements CountingStrategy {
-    name: StrategyType = "Average"
 
     canCount(vote: any): boolean {
         return typeof vote === "number";
